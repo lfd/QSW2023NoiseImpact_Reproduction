@@ -11,9 +11,14 @@ RUN apt-get update && apt-get install -y \
         python3-pip \
 	vim
 
+RUN useradd -m -G sudo -s /bin/bash repro && echo "repro:repro" | chpasswd
+RUN usermod -a -G staff repro
+USER repro
+
 ADD --chown=repro:repro . /home/repro/qsw-repro
 
 WORKDIR /home/repro/qsw-repro
+RUN chmod +x exec_commands.sh
 
 # install python packages
 ENV PATH $PATH:/home/repro/.local/bin
