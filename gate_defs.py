@@ -33,6 +33,7 @@ from qiskit import QuantumCircuit
 
 from qiskit.circuit.library.standard_gates import RZGate,SXGate,SGate,CXGate,RYGate,SdgGate,SXdgGate, RGate, CRXGate, RXGate
 
+# General NOTE: Gates that differ by a global phase difference shall not be used as equals in controlled mode!
 
 # +++ NOTE: From here: IONQ gatesets +++
 # 1) GPI1 (custom R Gate with theta=pi)
@@ -69,7 +70,6 @@ class OwnGPI1Gate(Gate):
         NOTE: I just set theta to pi so we can ommit this
         """
         return OwnGPI1Gate(self.params[0])
-
 
     def __array__(self, dtype=None):
         theta, phi = np.pi, float(self.params[0])
@@ -224,29 +224,12 @@ class OwnX1Gate(Gate):
 
         self.definition = qc
 
-    def control(
-        self,
-        num_ctrl_qubits: int = 1,
-        label: Optional[str] = None,
-        ctrl_state: Optional[Union[str, int]] = None,
-    ):
-        """
-        Nix
-        """
-        if num_ctrl_qubits == 1:
-            gate = CRXGate(np.pi/2, label=label, ctrl_state=ctrl_state)
-            gate.base_gate.label = self.label
-            return gate
-        return super().control(num_ctrl_qubits=num_ctrl_qubits, label=label, ctrl_state=ctrl_state)
-
-
     def inverse(self):
         r"""Return inverted RX gate.
 
         :math:`RX(\lambda)^{\dagger} = RX(-\lambda)`
         """
         return RXGate(-np.pi/2)
-
 
     def __array__(self, dtype=None):
         """Return a numpy.array for the RX gate."""
@@ -258,7 +241,6 @@ class OwnX1Gate(Gate):
         """Raise gate to a power."""
         return RXGate(exponent * (np.pi/2))
     
-
 class OwnX3Gate(Gate):
     """
     X3 Gate; meaning Rx(-pi/2) (up to global phase difference)
@@ -280,29 +262,12 @@ class OwnX3Gate(Gate):
 
         self.definition = qc
 
-    def control(
-        self,
-        num_ctrl_qubits: int = 1,
-        label: Optional[str] = None,
-        ctrl_state: Optional[Union[str, int]] = None,
-    ):
-        """
-        Nix
-        """
-        if num_ctrl_qubits == 1:
-            gate = CRXGate(-np.pi/2, label=label, ctrl_state=ctrl_state)
-            gate.base_gate.label = self.label
-            return gate
-        return super().control(num_ctrl_qubits=num_ctrl_qubits, label=label, ctrl_state=ctrl_state)
-
-
     def inverse(self):
         r"""Return inverted RX gate.
 
         :math:`RX(\lambda)^{\dagger} = RX(-\lambda)`
         """
         return RXGate(np.pi/2)
-
 
     def __array__(self, dtype=None):
         """Return a numpy.array for the RX gate."""
