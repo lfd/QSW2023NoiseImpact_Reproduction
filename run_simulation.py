@@ -740,7 +740,7 @@ def save_run(hw_config, run_config, df, time_stamp, dm_ideal, dm_noisy):
     # np.save(os.path.join(path_dens, "dm_ideal"+filename), dm_ideal)
     
     # Use timestamp in csvs to find the density matrix to your dings
-    np.save(os.path.join(path_dens, "dm-noisy_"+filename), dm_noisy.data)
+    # np.save(os.path.join(path_dens, "dm-noisy_"+filename), dm_noisy.data)
 
 
 def format_var_run(hw_config, run_config, test_metrics, train_metrics, params):
@@ -842,8 +842,8 @@ def save_var_run(hw_config, run_config, df_train, df_test, time_stamp,dms_noisy,
     if not os.path.isdir(path_dens):
         os.makedirs(path_dens)
 
-    np.save(os.path.join(path_dens,filename_dens_noisy),dms_noisy)
-    np.save(os.path.join(path_dens,filename_dens_ideal),dms_ideal)
+    #np.save(os.path.join(path_dens,filename_dens_noisy),dms_noisy)
+    #np.save(os.path.join(path_dens,filename_dens_ideal),dms_ideal)
 
 
     if not os.path.isdir(path_train):
